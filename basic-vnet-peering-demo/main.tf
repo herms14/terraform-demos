@@ -9,6 +9,9 @@ terraform {
 
 provider "azurerm" {
   features {}
+
+  // $env:ARM_SUBSCRIPTION_ID = "d1d0c4e7-df3f-41e7-bab1-56d09aecad39"
+
 }
 
 # Rest of the configuration will be added below
@@ -80,15 +83,13 @@ resource "azurerm_linux_virtual_machine" "vm_sea" {
   resource_group_name = azurerm_resource_group.rg_sea.name
   location            = azurerm_resource_group.rg_sea.location
   size                = var.vm_size
-  admin_username      = var.admin_username
   network_interface_ids = [
     azurerm_network_interface.nic_sea.id,
   ]
 
-  admin_ssh_key {
-    username   = var.admin_username
-    public_key = var.admin_ssh_public_key
-  }
+  admin_username                  = var.admin_username
+  admin_password                  = var.admin_password
+  disable_password_authentication = false
 
   os_disk {
     caching              = "ReadWrite"
@@ -108,15 +109,13 @@ resource "azurerm_linux_virtual_machine" "vm_eastasia" {
   resource_group_name = azurerm_resource_group.rg_eastasia.name
   location            = azurerm_resource_group.rg_eastasia.location
   size                = var.vm_size
-  admin_username      = var.admin_username
   network_interface_ids = [
     azurerm_network_interface.nic_eastasia.id,
   ]
 
-  admin_ssh_key {
-    username   = var.admin_username
-    public_key = var.admin_ssh_public_key
-  }
+  admin_username                  = var.admin_username
+  admin_password                  = var.admin_password
+  disable_password_authentication = false
 
   os_disk {
     caching              = "ReadWrite"
